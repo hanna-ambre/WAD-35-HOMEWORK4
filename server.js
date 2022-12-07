@@ -1,48 +1,26 @@
 const express = require('express');
+const pool = require('./database');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+const port = process.env.PORT || 3000;
+
 const app = express();
 
-// listen for requests on port 3000
-app.listen(3000);
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
+// We need to include "credentials: true" to allow cookies to be represented  
+// Also "credentials: 'include'" need to be added in Fetch API in the Vue.js App
 
-app.use((req, res, next) => {
-    console.log('a new request was made to the server');
-    next();
-});
+app.use(express.json());  // Parses incoming requests with JSON payloads and is based on body-parser.
+app.use(cookieParser());  // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 
-/* app.get() is used to respond to Get requests, and it takes two arguments:
-1- arg1: represents what path/url you want to listen to (e.g., '/' listens to index path)
-2- arg2: represents a function that takes in request and response objects */
+``````````````
+    // Code will go here  
 
-app.get('/', (req, res) => {
-    // res.send can be used to send text and HTML snippets
-    //res.send('</h1>First HTML response message! </h1>');
-
-    /* res.sendFile() is a method that can be used to send files as its name indicates
-    However, it takes the absolute not the relative path to the file. Therefore, you need to specify what is the root directory.
-    To avoid this confusion, you can use  "__dirname"*/
-    res.sendFile('./views/main.html', { root: __dirname });
-    console.log(__dirname);
-});
-
-/*
-// do not write in the URL address bar the extension of the page. For example, writing (http://localhost:3000/posts.html) will direct you to the 404 page
-app.get('/posts', (req, res) => {
-    res.sendFile('./views/posts.html', { root: __dirname });
-});
-
-
-
-app.get('/contactus', (req, res) => {
-    res.sendFile('./views/contactus.html', { root: __dirname });
-});
-
-
-
-// We will discuss this method next week, when we speak about Middlewares
-app.use((req, res) => {
-    res.status(404).sendFile('./views/404.html', { root: __dirname });
-});
-
+``````````````
 app.listen(port, () => {
     console.log("Server is listening to port " + port)
-});*/
+});
+
