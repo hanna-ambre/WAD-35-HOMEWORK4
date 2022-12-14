@@ -93,12 +93,7 @@ app.post('/auth/login', async(req, res) => {
             .status(201)
             .cookie('jwt', token, { maxAge: 6000000, httpOnly: true })
             .json({ user_id: user.rows[0].id });
-        }
-        else{
-            res.status(401).json({ error: "Incorrect password" });
-        }
-        
-    } catch (error) {
+        }catch (error) {
         res.status(401).json({ error: error.message });
     }
 });
