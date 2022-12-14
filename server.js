@@ -172,7 +172,7 @@ app.post('/api/posts', async(req, res) => {
 });
 app.get('/api/posts', async(req, res) => {
     try {
-        console.log("get posts request has arrived");
+        console.log("get all posts request has arrived");
         const posts = await pool.query(
             "SELECT * FROM posts"
         );
