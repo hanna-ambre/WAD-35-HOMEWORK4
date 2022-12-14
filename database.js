@@ -9,20 +9,15 @@ const pool = new Pool({
 
 const execute = async(query1, query2) => {
     try {
-        await pool.connect(); // create a connection
-        await pool.query(query1); // executes 1. query
-        await pool.query(query2); // executes 2. query
+        await pool.connect();
+        await pool.query(query1);
+        await pool.query(query2);
         return true;
     } catch (error) {
         console.error(error.stack);
         return false;
     }
 };
-
-/* 
-gen_random_uuid() A system function to generate a random Universally Unique IDentifier (UUID)
-An example of generated uuid:  32165102-4866-4d2d-b90c-7a2fddbb6bc8
-*/
 
 const createTblQuery = `
     CREATE TABLE IF NOT EXISTS "users" (
