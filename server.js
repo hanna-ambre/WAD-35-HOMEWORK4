@@ -126,6 +126,7 @@ app.get('/auth/logout', (req, res) => {
     res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" }).send
 });
 
+
 //gets the selected post for editing
 app.get('/posts/:id', async(req, res) => {
     try {
@@ -167,6 +168,7 @@ app.delete('/posts/:id', async(req, res) => {
     }
 });
 
+
 app.delete('/all/posts', async(req, res) => {
     try {
         const { id } = req.params;
@@ -176,6 +178,19 @@ app.delete('/all/posts', async(req, res) => {
         );
         res.json(deletepost);
     } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// Main Page - delete all posts
+app.delete('/api/posts', async(req, res) => {
+    try{
+        const deletepost = await pool.query(
+            "TRUNCATE posttable"
+        );
+        res.json(deletepost);
+    }
+    catch(err){
         console.error(err.message);
     }
 });
