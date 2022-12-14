@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool;
 const pool = new Pool({
     user: "postgres",
-    password: "root",
+    password: "adm1n",
     database: "HW4",
     host: "localhost",
     port: "5432"
@@ -34,7 +34,8 @@ const createTblQuery = `
 const createTblPosts = `
     CREATE TABLE IF NOT EXISTS "posts" (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-        body VARCHAR(200) NOT NULL
+        date TIME,
+        "body" VARCHAR(200) NOT NULL,
     );`;
 
 execute(createTblQuery, createTblPosts).then(result => {
@@ -42,5 +43,30 @@ execute(createTblQuery, createTblPosts).then(result => {
         console.log('Table "posts" and table "users" has been created');
     }
 });
+
+/*
+const insertPost = async (postBody) => {
+    try {
+        await pool.connect();           // gets connection
+        await pool.query(
+            `INSERT INTO "posts" ("body")  
+             VALUES ($1)`, [postBody]); // sends queries
+        return true;
+    } catch (error) {
+        console.error(error.stack);
+        return false;
+    }
+};
+
+insertPost('testing').then(result => {
+    if (result) {
+        console.log('Post inserted');
+    }
+});
+insertPost('Homework 4 is kinda hard').then(result => {
+    if (result) {
+        console.log('Post inserted');
+    }
+});*/
 
 module.exports = pool;

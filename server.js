@@ -50,7 +50,7 @@ app.get('/auth/authenticate', async(req, res) => {
                 }
             })
         } else { //applies when the token does not exist
-            console.log('author is not authinticated');
+            console.log('author is not authenticated');
             res.send({ "authenticated": authenticated }); // authenticated = false
         }
     } catch (err) {
@@ -140,7 +140,6 @@ app.get('/posts/:id', async(req, res) => {
         console.error(err.message);
     }
 });
-
 app.put('/posts/:id', async(req, res) => {
     try {
         const { id } = req.params;
@@ -155,7 +154,60 @@ app.put('/posts/:id', async(req, res) => {
     }
 });
 
-app.delete('/posts/:id', async(req, res) => {
+
+
+// Add post: add
+app.post('/api/posts', async(req, res) => {
+    try{
+        const post = req.body;
+        const newpost = await pool.query(
+            "INSERT INTO posts(body) values ($1) RETURNING*", [post.body]
+        )
+        res.json(newpost);
+    }
+    catch(err){
+        console.error(err.message);
+    }
+});
+app.get('/api/posts', async(req, res) => {
+    try {
+        console.log("get posts request has arrived");
+        const posts = await pool.query(
+            "SELECT * FROM posts"
+        );
+        res.json(posts.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.get('/api/posts/:id', async(req, res) => {
+    try {
+        console.log("get a post with route parameter  request has arrived");
+        const { id } = req.params;
+        const posts = await pool.query(
+            "SELECT * FROM posts WHERE id = $1", [id]
+        );
+        res.json(posts.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+app.put('/api/posts/:id', async(req, res) => {
+    try {
+        const { id } = req.params;
+        const post = req.body;
+        console.log("update request has arrived");
+        const updatepost = await pool.query(
+            "UPDATE posts SET (body) = ($3) WHERE id = $1 RETURNING*", [id, post.body]
+        );
+        res.json(updatepost);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.delete('/api/posts/:id', async(req, res) => {
     try {
         const { id } = req.params;
         console.log("delete a post request has arrived");
@@ -168,27 +220,13 @@ app.delete('/posts/:id', async(req, res) => {
     }
 });
 
-
-app.delete('/all/posts', async(req, res) => {
-    try {
-        const { id } = req.params;
-        console.log("delete a post request has arrived");
-        const deletepost = await pool.query(
-            "DELETE FROM posts"
-        );
-        res.json(deletepost);
-    } catch (err) {
-        console.error(err.message);
-    }
-});
-
 // Main Page - delete all posts
 app.delete('/api/posts', async(req, res) => {
     try{
-        const deletepost = await pool.query(
-            "TRUNCATE posttable"
+        const deletePosts = await pool.query(
+            "DELETE FROM posts"
         );
-        res.json(deletepost);
+        res.json(deletePosts);
     }
     catch(err){
         console.error(err.message);
