@@ -141,7 +141,7 @@ app.get('/api/posts/:id', async(req, res) => {
     }
 });
 
-app.put('/posts/:id', async(req, res) => {
+app.put('/api/posts/:id', async(req, res) => {
     try {
         const { id } = req.params;
         const post = req.body;
@@ -170,6 +170,8 @@ app.post('/api/posts', async(req, res) => {
         console.error(err.message);
     }
 });
+
+// get all posts
 app.get('/api/posts', async(req, res) => {
     try {
         console.log("get all posts request has arrived");
@@ -184,7 +186,7 @@ app.get('/api/posts', async(req, res) => {
 
 app.get('/api/posts/:id', async(req, res) => {
     try {
-        console.log("get a post with route parameter  request has arrived");
+        console.log("get a post with route parameter request has arrived");
         const { id } = req.params;
         const posts = await pool.query(
             "SELECT * FROM posts WHERE id = $1", [id]
@@ -208,6 +210,7 @@ app.put('/api/posts/:id', async(req, res) => {
     }
 });
 
+// Edit Post - delete one post
 app.delete('/api/posts/:id', async(req, res) => {
     try {
         const { id } = req.params;
@@ -220,6 +223,7 @@ app.delete('/api/posts/:id', async(req, res) => {
         console.error(err.message);
     }
 });
+
 // Main Page - delete all posts
 app.delete('/api/posts', async(req, res) => {
     try{
