@@ -219,7 +219,6 @@ app.delete('/api/posts/:id', async(req, res) => {
         console.error(err.message);
     }
 });
-
 // Main Page - delete all posts
 app.delete('/api/posts', async(req, res) => {
     try{
