@@ -126,5 +126,32 @@ app.get('/auth/logout', (req, res) => {
     res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" }).send
 });
 
+// editPost - delete a post
+app.delete('/api/posts/:id', async(req, res) => {
+    try{
+        const {id} = req.params;
+        const deletepost = await pool.query(
+            "DELETE FROM posttable WHERE id = $1", [id]
+        );
+        res.json(deletepost);
+    }
+    catch(err){
+        console.error(err.message);
+    }
+});
+
+// Main Page - delete all posts
+app.delete('/api/posts', async(req, res) => {
+    try{
+        const deletepost = await pool.query(
+            "TRUNCATE posttable"
+        );
+        res.json(deletepost);
+    }
+    catch(err){
+        console.error(err.message);
+    }
+});
+
 //code ends here
 
