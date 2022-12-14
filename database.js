@@ -34,8 +34,8 @@ const createTblQuery = `
 const createTblPosts = `
     CREATE TABLE IF NOT EXISTS "posts" (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-        date TIME,
-        "body" VARCHAR(200) NOT NULL,
+        "date" timestamp default current_timestamp,
+        "body" VARCHAR(200) NOT NULL
     );`;
 
 execute(createTblQuery, createTblPosts).then(result => {
