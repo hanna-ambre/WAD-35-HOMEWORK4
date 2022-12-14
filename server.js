@@ -169,7 +169,7 @@ app.delete('/posts/:id', async(req, res) => {
 });
 
 
-app.delete('/all/posts', async(req, res) => {
+app.delete('/allPosts', async(req, res) => {
     try {
         const { id } = req.params;
         console.log("delete a post request has arrived");
@@ -177,6 +177,20 @@ app.delete('/all/posts', async(req, res) => {
             "DELETE FROM posts"
         );
         res.json(deletepost);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+//gets the selected post for editing
+app.get('/allPosts', async(req, res) => {
+    try {
+        console.log("get a post with route parameter  request has arrived");
+        const { id } = req.params;
+        const posts = await pool.query(
+            "SELECT * FROM posts"
+        );
+        res.json(posts.rows);
     } catch (err) {
         console.error(err.message);
     }
