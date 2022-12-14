@@ -128,7 +128,7 @@ app.get('/auth/logout', (req, res) => {
 
 
 //gets the selected post for editing
-app.get('/posts/:id', async(req, res) => {
+app.get('/api/posts/:id', async(req, res) => {
     try {
         console.log("get a post with route parameter  request has arrived");
         const { id } = req.params;
@@ -140,6 +140,7 @@ app.get('/posts/:id', async(req, res) => {
         console.error(err.message);
     }
 });
+
 app.put('/posts/:id', async(req, res) => {
     try {
         const { id } = req.params;
